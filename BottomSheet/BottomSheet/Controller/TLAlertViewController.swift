@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TLAlertViewController: UIViewController {
+class TLAlertViewControllerNew: UIViewController {
     
     // MARK: Variables
     var viewModel: TLAlertViewModel?
@@ -38,6 +38,7 @@ class TLAlertViewController: UIViewController {
     }
     
     private func intialSetUp() {
+        self.view.isOpaque = false
         self.view.backgroundColor = .clear
         configureDimView()
         configureContentView()
@@ -65,11 +66,21 @@ class TLAlertViewController: UIViewController {
         if let type = viewModel?.alertType {
             switch type {
             case .controller(_, _, _):
-                contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.getTopSpace)!).isActive = true
+                contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.topSpace)!).isActive = true
+//                if (viewModel?.topMargin ?? 0.0) > 0 {
+//                    contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.topSpace)!).isActive = true
+//                } else {
+//                    contentView.heightAnchor.constraint(equalToConstant: viewModel?.contentHeight ?? 0.0).isActive = true
+//                }
             case .customView(_, _, _):
-                contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.getTopSpace)!).isActive = true
+                if (viewModel?.topMargin ?? 0.0) > 0 {
+                    contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.topSpace)!).isActive = true
+                } else {
+                    contentView.heightAnchor.constraint(equalToConstant: viewModel?.contentHeight ?? 0.0).isActive = true
+                }
+                
             case .commonPopUp(_, _, _):
-                contentView.heightAnchor.constraint(equalToConstant: (viewModel?.getContentViewHeight)!).isActive = true
+                contentView.heightAnchor.constraint(equalToConstant: (viewModel?.getContentViewHeightForCommonPopUp)!).isActive = true
             }
         }
     }
@@ -105,21 +116,22 @@ class TLAlertViewController: UIViewController {
             headerView?.delegate = self
             headerView?.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(headerView!)
-            headerView?.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+            headerView?.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
             headerView?.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
             headerView?.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-            headerView?.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            headerView?.heightAnchor.constraint(equalToConstant: headerData!.headerHeight).isActive = true
         }
        
         contentView.addSubview(subView)
         subView.translatesAutoresizingMaskIntoConstraints = false
+        subView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        subView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        
         if let header = headerView { // If header view exist
             subView.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
         } else {
             subView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         }
-        subView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        subView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         
         if let buttonsArr = footerButtons, buttonsArr.count > 0 {
             let footerView = TLFooterView()
@@ -136,13 +148,11 @@ class TLAlertViewController: UIViewController {
         } else {
             subView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         }
-        
     }
-    
 }
 
 // MARK: For Controller Alert Type
-extension TLAlertViewController {
+extension TLAlertViewControllerNew {
     private func configureChild(childViewController: UIViewController, footerButton: [TLFooterButton]?, headerData: TLHeaderData?) {
         addChild(childViewController)
         addSubviewIntoContentView(subView: childViewController.view, footerButtons: footerButton, headerData: headerData)
@@ -152,14 +162,14 @@ extension TLAlertViewController {
 }
 
 // MARK: For CustomView
-extension TLAlertViewController {
+extension TLAlertViewControllerNew {
     func configureCustomView(customView: UIView, footerButtons: [TLFooterButton]?, headerData: TLHeaderData?) {
         self.addSubviewIntoContentView(subView: customView, footerButtons: footerButtons, headerData: headerData)
     }
 }
 
 // MARK: Common PopUp
-extension TLAlertViewController {
+extension TLAlertViewControllerNew {
     private func configureCommonPopUp(data: TLAlertModel, footerButtons: [TLFooterButton]?, headerData: TLHeaderData?) {
         let commonView = TLCommonPopUpView()
         self.addSubviewIntoContentView(subView: commonView, footerButtons: footerButtons, headerData: headerData)
@@ -167,7 +177,7 @@ extension TLAlertViewController {
     }
 }
 
-extension TLAlertViewController: TLAlertHeaderViewDelegate {
+extension TLAlertViewControllerNew: TLAlertHeaderViewDelegate {
     func dismissPopUp(_ view: TLAlertHeaderView?) {
         delegate?.dismissAlertView(self)
         dismissVC()
@@ -175,10 +185,18 @@ extension TLAlertViewController: TLAlertHeaderViewDelegate {
 }
 
 // MARK: TLFooterViewDelegate
-extension TLAlertViewController: TLFooterViewDeleagte {
+extension TLAlertViewControllerNew: TLFooterViewDeleagte {
     func clickedOnButton(_ footerView: TLFooterView?, sender: UIButton) {
         delegate?.tappedOnFooterButton(footerView, sender: sender)
         dismissVC()
+    }
+}
+
+// To Present full Screen
+extension UIViewController {
+    func presentBottomSheet(_ bottomSheet: UIViewController, completion: (() -> Void)?) {
+        bottomSheet.modalPresentationStyle = .overCurrentContext
+        self.present(bottomSheet, animated: true, completion: completion)
     }
 }
 

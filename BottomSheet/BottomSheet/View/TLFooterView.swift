@@ -51,11 +51,26 @@ extension TLFooterView {
         if let btnsArr = buttonsArr {
             for (i, btnData) in btnsArr.enumerated() {
                 let btn = UIButton(type: .custom)
-                btn.setTitle(btnData.title, for: .normal)
-                btn.setTitleColor(btnData.textColor, for: .normal)
-                btn.backgroundColor = btnData.backGroundColor
-                btn.layer.cornerRadius = btnData.cornerRadius
-                btn.clipsToBounds = true
+                
+                if let btnTitle = btnData.title {
+                    btn.setTitle(btnTitle, for: .normal)
+                }
+                if let textColor = btnData.textColor {
+                    btn.setTitleColor(textColor, for: .normal)
+                }
+                
+                if let bgColor = btnData.backGroundColor {
+                    btn.backgroundColor = bgColor
+                }
+                if let radius = btnData.cornerRadius {
+                    btn.layer.cornerRadius = radius
+                    btn.clipsToBounds = true
+                }
+                
+                if let btnImage = btnData.image {
+                    btn.setImage(btnImage, for: .normal)
+                }
+                
                 btn.tag = i+1
                 btn.addTarget(self, action: #selector(clickedOnButton(_:)), for: .touchUpInside)
                 horizantolStack.addArrangedSubview(btn)
@@ -67,3 +82,4 @@ extension TLFooterView {
         delegate?.clickedOnButton(self, sender: sender)
     }
 }
+

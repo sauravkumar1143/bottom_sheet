@@ -9,17 +9,6 @@ import UIKit
 
 class ChildViewController: UIViewController {
     
-    lazy var titleLabel: UILabel = {
-       let lbl = UILabel()
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.text = "I am Child View and i am added into bottom sheet"
-        lbl.textColor = .black
-        lbl.textAlignment = .center
-        lbl.font = UIFont.boldSystemFont(ofSize: 30)
-        lbl.numberOfLines = 0
-        return lbl
-    }()
-    
     lazy var topImage: UIImageView =  {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
@@ -35,17 +24,7 @@ class ChildViewController: UIViewController {
         topImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         topImage.heightAnchor.constraint(equalToConstant: 400).isActive = true
         topImage.widthAnchor.constraint(equalToConstant: 400).isActive = true
-
-//        view.addSubview(titleLabel)
-//        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-//        titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-//        titleLabel.topAnchor.constraint(equalTo: topImage.topAnchor, constant: 10).isActive = true
-//        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-////
-           
-//        guard let confettiImageView = UIImageView.fromGif(frame: topImage.frame, resourceName: "giphy") else { return }
-//        topImage = confettiImageView
-//        topImage.startAnimating()
+        
         let frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - 200)
         guard let confettiImageView = UIImageView.fromGif(frame: frame, resourceName: "giphy") else { return }
         view.addSubview(confettiImageView)

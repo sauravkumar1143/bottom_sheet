@@ -172,7 +172,7 @@ extension ViewController {
         let chVC = ChildViewController()
         numberOfButton = sender.tag
         let btns = getButtonsArray(count: numberOfButton)
-        let bottomSheetVC = TLAlertViewController()
+        let bottomSheetVC = TLAlertViewControllerNew()
         bottomSheetVC.delegate = self
         
         let alertType = TLAlertType.controller(childController: chVC, footerButton: btns, header: nil)
@@ -186,13 +186,14 @@ extension ViewController {
 extension ViewController {
     @objc fileprivate func customViewAlertType(_ sender: UIButton) {
         let customView = CustomView()
-        let bottomSheetVC = TLAlertViewController()
+        let bottomSheetVC = TLAlertViewControllerNew()
         bottomSheetVC.delegate = self
         numberOfButton = sender.tag
         let btns = getButtonsArray(count: numberOfButton)
         let alertType = TLAlertType.customView(view: customView, footerButton: btns, header: nil)
         bottomSheetVC.viewModel = TLAlertViewModel(alertType: alertType)
-        bottomSheetVC.viewModel?.popUpHeight = 300
+       // bottomSheetVC.viewModel?.percentageHeight = 0.5
+       // bottomSheetVC.viewModel?.topMargin = 100
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(bottomSheetVC, animated: true, completion: nil)
     }
@@ -201,10 +202,12 @@ extension ViewController {
 // MARK: Common View
 extension ViewController {
     @objc fileprivate func commonViewAlertType(_ sender: UIButton) {
-       let alertModel = TLAlertModel(headerImage: nil, title: "Title is dynamic.it can be more than one line", subtitle: "Subtitle is also dynamic. you can add multiple text here. the height of the PopUp will be increased based on the content.When the content of popup will increase more than the height of the screen ,the popup height will be fixed and then content will start scrolling")
+        var alertModel = TLAlertModel()
+        alertModel.title = " title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title"
+        alertModel.subtitle = " subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button subtitle subtitle subtitle subtitle subtitle Controller With three Button"
         numberOfButton = sender.tag
         let btns = getButtonsArray(count: numberOfButton)
-        let bottomSheetVC = TLAlertViewController()
+        let bottomSheetVC = TLAlertViewControllerNew()
         bottomSheetVC.delegate = self
         var header = TLHeaderData()
         header.btnImage = UIImage(named: "Close")
@@ -249,7 +252,7 @@ extension ViewController {
 }
 
 extension ViewController: TLAlertViewControllerDelegate {
-    func dismissAlertView(_ controller: TLAlertViewController) {
+    func dismissAlertView(_ controller: TLAlertViewControllerNew) {
         print("Dismiss")
     }
     

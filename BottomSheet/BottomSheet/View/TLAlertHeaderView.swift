@@ -29,6 +29,13 @@ class TLAlertHeaderView: UIView {
         return btn
     }()
     
+    var bottomSeperatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     var data: TLHeaderData? {
         didSet {
            updateUI()
@@ -56,14 +63,20 @@ extension TLAlertHeaderView {
         
         self.addSubview(headerTitleLabel)
         headerTitleLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        headerTitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        headerTitleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        headerTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         
         self.addSubview(closeButton)
         closeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -18).isActive = true
         closeButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        closeButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        closeButton.leadingAnchor.constraint(greaterThanOrEqualTo: headerTitleLabel.trailingAnchor, constant: 10).isActive = true
+        closeButton.leadingAnchor.constraint(greaterThanOrEqualTo: headerTitleLabel.trailingAnchor, constant: 16).isActive = true
+        headerTitleLabel.centerYAnchor.constraint(equalTo: self.closeButton.centerYAnchor).isActive = true
+        
+        self.addSubview(bottomSeperatorView)
+        bottomSeperatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        bottomSeperatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        bottomSeperatorView.topAnchor.constraint(equalTo: self.closeButton.bottomAnchor).isActive = true
+        bottomSeperatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        bottomSeperatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
     }
     
@@ -101,7 +114,7 @@ extension TLAlertHeaderView {
             headerTitleLabel.text = headerText
         }
         
-        if let headerFont = data.headerTitlFont {
+        if let headerFont = data.headerTitleFont {
             headerTitleLabel.font = headerFont
         }
         
@@ -109,6 +122,13 @@ extension TLAlertHeaderView {
             headerTitleLabel.textColor = headerTitleColor
         }
         
+        // Default is center
+        headerTitleLabel.textAlignment = data.headerTitleAlignment
+        
+        if let color = data.seperatorColor {
+            bottomSeperatorView.backgroundColor = color
+        }
     }
     
 }
+

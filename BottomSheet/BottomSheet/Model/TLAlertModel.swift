@@ -7,31 +7,51 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 struct TLAlertModel {
+    
+    var headerImageBackgroundColor:UIColor?
     var headerImage: UIImage?
     var title: String?
     var subtitle: String?
-    var titleColor: UIColor = .black
-    var subTitleColor: UIColor = .darkGray
-    var titleFont: UIFont = UIFont.systemFont(ofSize: 20, weight: .semibold)
-    var subTitleFont: UIFont = UIFont.systemFont(ofSize: 16, weight: .regular)
+    var titleColor: UIColor?
+    var subTitleColor: UIColor?
+    var titleFont: UIFont?
+    var subTitleFont: UIFont?
+    
+    init() {
+        // Default Color we are taking from theme, but we cane change the color of title and subtitle based on our requirement
+//        if let color = theme.getMonotoneColor()?.darkGreyColor {
+//            titleColor = color
+//            subTitleColor = color
+//        }
+//        // Default Font Size from Theme , but we can change the font based on our requrement
+        titleFont = UIFont.systemFont(ofSize: 16)
+        subTitleFont = UIFont.systemFont(ofSize: 14)
+       // headerImage = UIImage(named: "studyPlanLeftIcon") // Default Image
+    }
 }
 
 struct TLFooterButton {
     var title: String?
-    var textColor: UIColor = .black
+    var textColor: UIColor?
     var font: UIFont?
-    var cornerRadius: CGFloat = 0.0
+    var cornerRadius: CGFloat?
     var backGroundColor: UIColor?
     var image:UIImage?
-    var tag: Int? // Optional(You can assign a tag )
+    
+    init() {
+        textColor = UIColor.black
+    }
 }
 
 struct TLHeaderData {
+    
     var headerTitle: String?
     var headerTitleColor:UIColor?
-    var headerTitlFont:UIFont?
+    var headerTitleFont:UIFont?
+    var headerTitleAlignment: NSTextAlignment = .center
     
     var btnTitle: String?
     var btnImage: UIImage?
@@ -39,6 +59,9 @@ struct TLHeaderData {
     var btnBackGroundColor: UIColor?
     var btnCornerRadius:CGFloat?
     var btnTextColor:UIColor?
+    var seperatorColor: UIColor?
+    var headerHeight: CGFloat = 45// Default
+
     
     var buttonWidth: CGFloat {
         var finalWidth: CGFloat = 25.0
@@ -48,4 +71,6 @@ struct TLHeaderData {
         }
         return finalWidth
     }
+    
 }
+

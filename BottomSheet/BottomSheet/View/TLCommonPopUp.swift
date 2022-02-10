@@ -44,6 +44,9 @@ class TLCommonPopUpView: UIView {
         subTitle.textAlignment = .center
         return subTitle
     }()
+    var headerImageHeightConstraint: NSLayoutConstraint?
+    var topAnchorOfTitle: NSLayoutConstraint?
+    var topAnchoOfHeaderImage: NSLayoutConstraint?
     
     var data: TLAlertModel? {
         didSet {
@@ -76,15 +79,18 @@ class TLCommonPopUpView: UIView {
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         
         contentView.addSubview(headerImage)
-        headerImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24).isActive = true
-        headerImage.heightAnchor.constraint(equalToConstant: 72).isActive = true
+        topAnchoOfHeaderImage = headerImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24)
+        topAnchoOfHeaderImage?.isActive = true
+        headerImageHeightConstraint = headerImage.heightAnchor.constraint(equalToConstant: 72)
+        headerImageHeightConstraint?.isActive = true
         headerImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         headerImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         
         contentView.addSubview(titleLabel)
         titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 35).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -35).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: self.headerImage.bottomAnchor, constant: 30).isActive = true
+        topAnchorOfTitle = titleLabel.topAnchor.constraint(equalTo: self.headerImage.bottomAnchor, constant: 30)
+        topAnchorOfTitle?.isActive = true
         
         contentView.addSubview(subTitleLabel)
         subTitleLabel.leadingAnchor.constraint(equalTo: self.titleLabel.leadingAnchor).isActive = true
@@ -99,13 +105,23 @@ extension TLCommonPopUpView {
     
     private func updateUI() {
         guard let data = data else { return }
+        
         titleLabel.textColor = data.titleColor
         subTitleLabel.textColor = data.subTitleColor
         titleLabel.text = data.title
         subTitleLabel.text = data.subtitle
         subTitleLabel.font = data.subTitleFont
         titleLabel.font = data.titleFont
-        headerImage.image = UIImage(named: "happy")
+        
+        if let headerImgae = data.headerImage {
+            self.headerImage.image = headerImgae
+        } else {
+            headerImageHeightConstraint?.constant = 0
+            topAnchorOfTitle?.constant = 0
+            topAnchoOfHeaderImage?.constant = 0
+        }
+        if let bgColorForHeaderImg = data.headerImageBackgroundColor {
+            self.headerImage.backgroundColor = bgColorForHeaderImg
+        }
     }
-
 }
