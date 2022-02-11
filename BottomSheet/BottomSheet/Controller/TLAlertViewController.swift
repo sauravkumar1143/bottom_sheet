@@ -75,8 +75,12 @@ class TLAlertViewControllerNew: UIViewController {
             case .customView(_, _, _):
                 if (viewModel?.topMargin ?? 0.0) > 0 {
                     contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.topSpace)!).isActive = true
-                } else {
+                } else if viewModel?.contentHeight ?? 0 > UIScreen.main.bounds.height {
+                    contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.topSpace ?? 120)).isActive = true
+
+                }else {
                     contentView.heightAnchor.constraint(equalToConstant: viewModel?.contentHeight ?? 0.0).isActive = true
+
                 }
                 
             case .commonPopUp(_, _, _):

@@ -83,8 +83,10 @@ class TLAlertViewModel {
     
     private func calculateHeight(subView: UIView) -> CGFloat {
         var h: CGFloat = 0
+        let screenHeight = UIScreen.main.bounds.height
         if (percentageHeight > 0 ) {
             let screenHeight = UIScreen.main.bounds.height
+
             h = (screenHeight * percentageHeight)
         } else {
             //TODO: need to calculate intrinsic Height
