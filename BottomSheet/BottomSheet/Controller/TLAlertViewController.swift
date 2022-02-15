@@ -79,8 +79,14 @@ class TLAlertViewControllerNew: UIViewController {
                     contentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: (viewModel?.topSpace ?? 120)).isActive = true
 
                 }else {
-                    contentView.heightAnchor.constraint(equalToConstant: viewModel?.contentHeight ?? 0.0).isActive = true
-
+//                    contentView.heightAnchor.constraint(equalToConstant: viewModel?.contentHeight ?? 0.0).isActive = true
+                   let height =  contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: viewModel?.contentHeight ?? 0.0)
+                    let topMargin =
+                    contentView.topAnchor.constraint(greaterThanOrEqualTo: self.view.safeAreaLayoutGuide.topAnchor, constant: viewModel?.topSpace ?? 120)
+                    topMargin.isActive = true
+                    topMargin.priority = UILayoutPriority(rawValue: 1000)
+                    height.isActive = true
+                    height.priority = UILayoutPriority(rawValue: 999)
                 }
                 
             case .commonPopUp(_, _, _):

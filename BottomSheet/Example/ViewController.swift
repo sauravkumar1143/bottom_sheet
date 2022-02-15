@@ -193,7 +193,7 @@ extension ViewController {
         let alertType = TLAlertType.customView(view: customView, footerButton: btns, header: nil)
         bottomSheetVC.viewModel = TLAlertViewModel(alertType: alertType)
        // bottomSheetVC.viewModel?.percentageHeight = 0.5
-       // bottomSheetVC.viewModel?.topMargin = 100
+        //bottomSheetVC.viewModel?.topMargin = 100
         bottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(bottomSheetVC, animated: true, completion: nil)
     }
